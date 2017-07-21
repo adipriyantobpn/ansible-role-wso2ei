@@ -11,3 +11,9 @@ wso2ei_executable_files:
   - "wso2/business-process/bin/wso2server.bat"
   - "wso2/msf4j/bin/carbon.sh"
   - "wso2/msf4j/bin/carbon.bat"
+
+wso2ei_config_validation_files:
+  - "conf/etc/config-validation.xml"
+  - "wso2/analytics/conf/etc/config-validation.xml"
+  - "wso2/broker/conf/etc/config-validation.xml"
+  - "wso2/business-process/conf/etc/config-validation.xml"

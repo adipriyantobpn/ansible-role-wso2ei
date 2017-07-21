@@ -7,4 +7,10 @@
         dest: "{{ wso2ei_install_appdir_fullpath }}/{{ item }}"
       with_items: "{{ wso2ei_executable_files }}"
 
+    - name: configure WSO2 EI configuration validation files
+      template:
+        src: "{{ item }}.j2"
+        dest: "{{ wso2ei_install_appdir_fullpath }}/{{ item }}"
+      with_items: "{{ wso2ei_config_validation_files }}"
+
   become: True

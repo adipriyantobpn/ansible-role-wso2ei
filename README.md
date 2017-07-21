@@ -32,11 +32,53 @@ wso2ei_install_source_control_tracked:  yes
 wso2ei_install_git_user_name:           'John Doe'
 wso2ei_install_git_user_email:          'john.doe@example.com'
 
+wso2ei_ignoreHostnameVerification:      'true'
+
 wso2ei_JVM_MEM_OPTS:                    "-Xms256m -Xmx1024m"
 wso2ei_analytics_JVM_MEM_OPTS:          "-Xms256m -Xmx2048m"
 wso2ei_broker_JVM_MEM_OPTS:             "-Xms1024m -Xmx2048m"
 wso2ei_business_process_JVM_MEM_OPTS:   "-Xms256m -Xmx1024m"
 wso2ei_msf4j_JVM_MEM_OPTS:              "-Xms256m -Xmx1024m"
+
+wso2ei_validator_CPU:             800
+wso2ei_validator_RAM:             2047
+wso2ei_validator_swap:            2047
+wso2ei_validator_freeDisk:        1024
+wso2ei_validator_ulimit:          4096
+wso2ei_validator_certFingerprint: '02:FB:AA:5F:20:64:49:4A:27:29:55:71:83:F7:46:CD'
+wso2ei_validator_initHeapSize:    256
+wso2ei_validator_maxHeapSize:     512
+wso2ei_validator_maxPermGenSize:  256
+
+wso2ei_analytics_validator_CPU:             "{{ wso2ei_validator_CPU }}"
+wso2ei_analytics_validator_RAM:             "{{ wso2ei_validator_RAM }}"
+wso2ei_analytics_validator_swap:            "{{ wso2ei_validator_swap }}"
+wso2ei_analytics_validator_freeDisk:        "{{ wso2ei_validator_freeDisk }}"
+wso2ei_analytics_validator_ulimit:          "{{ wso2ei_validator_ulimit }}"
+wso2ei_analytics_validator_certFingerprint: "{{ wso2ei_validator_certFingerprint }}"
+wso2ei_analytics_validator_initHeapSize:    "{{ wso2ei_validator_initHeapSize }}"
+wso2ei_analytics_validator_maxHeapSize:     "{{ wso2ei_validator_maxHeapSize }}"
+wso2ei_analytics_validator_maxPermGenSize:  "{{ wso2ei_validator_maxPermGenSize }}"
+
+wso2ei_broker_validator_CPU:              "{{ wso2ei_validator_CPU }}"
+wso2ei_broker_validator_RAM:              "{{ wso2ei_validator_RAM }}"
+wso2ei_broker_validator_swap:             "{{ wso2ei_validator_swap }}"
+wso2ei_broker_validator_freeDisk:         "{{ wso2ei_validator_freeDisk }}"
+wso2ei_broker_validator_ulimit:           "{{ wso2ei_validator_ulimit }}"
+wso2ei_broker_validator_certFingerprint:  "{{ wso2ei_validator_certFingerprint }}"
+wso2ei_broker_validator_initHeapSize:     "{{ wso2ei_validator_initHeapSize }}"
+wso2ei_broker_validator_maxHeapSize:      "{{ wso2ei_validator_maxHeapSize }}"
+wso2ei_broker_validator_maxPermGenSize:   "{{ wso2ei_validator_maxPermGenSize }}"
+
+wso2ei_business_process_validator_CPU:              "{{ wso2ei_validator_CPU }}"
+wso2ei_business_process_validator_RAM:              "{{ wso2ei_validator_RAM }}"
+wso2ei_business_process_validator_swap:             "{{ wso2ei_validator_swap }}"
+wso2ei_business_process_validator_freeDisk:         "{{ wso2ei_validator_freeDisk }}"
+wso2ei_business_process_validator_ulimit:           "{{ wso2ei_validator_ulimit }}"
+wso2ei_business_process_validator_certFingerprint:  "{{ wso2ei_validator_certFingerprint }}"
+wso2ei_business_process_validator_initHeapSize:     "{{ wso2ei_validator_initHeapSize }}"
+wso2ei_business_process_validator_maxHeapSize:      "{{ wso2ei_validator_maxHeapSize }}"
+wso2ei_business_process_validator_maxPermGenSize:   "{{ wso2ei_validator_maxPermGenSize }}"
 ```
 
 Dependencies
@@ -66,6 +108,15 @@ Example Playbook
       wso2ei_broker_JVM_MEM_OPTS:             "-Xms1024m -Xmx2048m"
       wso2ei_business_process_JVM_MEM_OPTS:   "-Xms256m -Xmx2048m"
       wso2ei_msf4j_JVM_MEM_OPTS:              "-Xms256m -Xmx1024m"
+      wso2ei_validator_CPU:                   800
+      wso2ei_validator_RAM:                   2047
+      wso2ei_validator_swap:                  2047
+      wso2ei_validator_freeDisk:              1024
+      wso2ei_validator_ulimit:                4096
+      wso2ei_validator_certFingerprint:       '02:FB:AA:5F:20:64:49:4A:27:29:55:71:83:F7:46:CD'
+      wso2ei_validator_initHeapSize:          256
+      wso2ei_validator_maxHeapSize:           512
+      wso2ei_validator_maxPermGenSize:        256
 ```
 
 License

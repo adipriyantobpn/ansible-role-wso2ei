@@ -33,9 +33,9 @@ rem ---------------------------------------------------------------------------
 rem --------- NOTE: This is an edited wso2server.sh script to facilitate
 rem spark environment variables for WSO2DAS!
 
-{% if wso2_analytics_JVM_MEM_OPTS is defined %}
+{% if wso2ei_analytics_JVM_MEM_OPTS is defined %}
 rem Ansible Managed
-SET JVM_MEM_OPTS="{{ wso2_analytics_JVM_MEM_OPTS | default('-Xms256m -Xmx1024m') }}"
+SET JVM_MEM_OPTS="{{ wso2ei_analytics_JVM_MEM_OPTS }}"
 {% endif %}
 
 rem ----- if JAVA_HOME is not set we're not happy ------------------------------

@@ -33,9 +33,9 @@
 # OS specific support.  $var _must_ be set to either true or false.
 #ulimit -n 100000
 
-{% if wso2_analytics_JVM_MEM_OPTS is defined %}
+{% if wso2ei_analytics_JVM_MEM_OPTS is defined %}
 # Ansible Managed
-JVM_MEM_OPTS="{{ wso2_analytics_JVM_MEM_OPTS }}"
+JVM_MEM_OPTS="{{ wso2ei_analytics_JVM_MEM_OPTS }}"
 {% endif %}
 
 # NOTE: This is an edited wso2server.sh script to facilitate spark environment variables for WSO2DAS

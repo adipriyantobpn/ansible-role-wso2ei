@@ -31,9 +31,9 @@ rem   JAVA_OPTS       (Optional) Java runtime options used when the commands
 rem                   is executed.
 rem ---------------------------------------------------------------------------
 
-{% if wso2_business_process_JVM_MEM_OPTS is defined %}
+{% if wso2ei_business_process_JVM_MEM_OPTS is defined %}
 rem Ansible Managed
-SET JVM_MEM_OPTS="{{ wso2_business_process_JVM_MEM_OPTS | default('-Xms256m -Xmx1024m') }}"
+SET JVM_MEM_OPTS="{{ wso2ei_business_process_JVM_MEM_OPTS }}"
 {% endif %}
 
 rem ----- if JAVA_HOME is not set we're not happy ------------------------------

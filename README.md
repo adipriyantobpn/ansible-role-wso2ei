@@ -32,11 +32,11 @@ wso2ei_install_source_control_tracked:  yes
 wso2ei_install_git_user_name:           'John Doe'
 wso2ei_install_git_user_email:          'john.doe@example.com'
 
-wso2_JVM_MEM_OPTS:                      "-Xms256m -Xmx1024m"
-wso2_analytics_JVM_MEM_OPTS:            "-Xms256m -Xmx2048m"
-wso2_broker_JVM_MEM_OPTS:               "-Xms1024m -Xmx2048m"
-wso2_business_process_JVM_MEM_OPTS:     "-Xms256m -Xmx1024m"
-wso2_msf4j_JVM_MEM_OPTS:                "-Xms256m -Xmx1024m"
+wso2ei_JVM_MEM_OPTS:                    "-Xms256m -Xmx1024m"
+wso2ei_analytics_JVM_MEM_OPTS:          "-Xms256m -Xmx2048m"
+wso2ei_broker_JVM_MEM_OPTS:             "-Xms1024m -Xmx2048m"
+wso2ei_business_process_JVM_MEM_OPTS:   "-Xms256m -Xmx1024m"
+wso2ei_msf4j_JVM_MEM_OPTS:              "-Xms256m -Xmx1024m"
 ```
 
 Dependencies
@@ -61,11 +61,11 @@ Example Playbook
       wso2ei_install_source_control_tracked:  yes
       wso2ei_install_git_user_name:           'Adi Priyanto'
       wso2ei_install_git_user_email:          'adipriyanto.bpn@gmail.com'
-      wso2_JVM_MEM_OPTS:                      "-Xms256m -Xmx2048m"
-      wso2_analytics_JVM_MEM_OPTS:            "-Xms256m -Xmx2048m"
-      wso2_broker_JVM_MEM_OPTS:               "-Xms1024m -Xmx2048m"
-      wso2_business_process_JVM_MEM_OPTS:     "-Xms256m -Xmx2048m"
-      wso2_msf4j_JVM_MEM_OPTS:                "-Xms256m -Xmx1024m"
+      wso2ei_JVM_MEM_OPTS:                    "-Xms256m -Xmx2048m"
+      wso2ei_analytics_JVM_MEM_OPTS:          "-Xms256m -Xmx2048m"
+      wso2ei_broker_JVM_MEM_OPTS:             "-Xms1024m -Xmx2048m"
+      wso2ei_business_process_JVM_MEM_OPTS:   "-Xms256m -Xmx2048m"
+      wso2ei_msf4j_JVM_MEM_OPTS:              "-Xms256m -Xmx1024m"
 ```
 
 License

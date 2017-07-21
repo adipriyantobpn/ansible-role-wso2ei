@@ -17,11 +17,11 @@ wso2ei_install_git_user_email:          'john.doe@example.com'
 #--
 #-- MaxPermSize is needed in JDK 1.7
 #--   example:
-#--     wso2_JVM_MEM_OPTS:                      "-Xms256m -Xmx1024m -XX:MaxPermSize=256m"
+#--     wso2ei_JVM_MEM_OPTS: "-Xms256m -Xmx1024m -XX:MaxPermSize=256m"
 #--
 #-- MaxPermSize in JDK 1.8 is obsoleted
-wso2_JVM_MEM_OPTS:                      "-Xms256m -Xmx1024m"
-wso2_analytics_JVM_MEM_OPTS:            "-Xms256m -Xmx2048m"
-wso2_broker_JVM_MEM_OPTS:               "-Xms1024m -Xmx2048m"
-wso2_business_process_JVM_MEM_OPTS:     "-Xms256m -Xmx1024m"
-wso2_msf4j_JVM_MEM_OPTS:                "-Xms256m -Xmx1024m"
+wso2ei_JVM_MEM_OPTS:                    "-Xms256m -Xmx1024m"
+wso2ei_analytics_JVM_MEM_OPTS:          "-Xms256m -Xmx2048m"
+wso2ei_broker_JVM_MEM_OPTS:             "-Xms1024m -Xmx2048m"
+wso2ei_business_process_JVM_MEM_OPTS:   "-Xms256m -Xmx1024m"
+wso2ei_msf4j_JVM_MEM_OPTS:              "-Xms256m -Xmx1024m"

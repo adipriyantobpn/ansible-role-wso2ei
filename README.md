@@ -21,8 +21,9 @@ Available variables are listed below, along with default values (see `defaults/m
 ---
 wso2ei_version:                         "6.1.1"
 wso2ei_installer_filename:              "wso2ei-{{ wso2ei_version }}.zip"
+wso2ei_use_local_installer:             no
+wso2ei_local_installer_path:            "{{ x_ansible_download_dir | default(ansible_env.HOME + '/.ansible/tmp/downloads') }}"
 wso2ei_tmp_dir:                         "/tmp"
-wso2ei_tmp_installer_filename:          "/tmp/{{ wso2ei_installer_filename }}"
 wso2ei_install_basedir:                 "/opt"
 wso2ei_install_appdirname:              "wso2ei-{{ wso2ei_version }}"
 wso2ei_install_appdir_fullpath:         "{{ wso2ei_install_basedir }}/{{ wso2ei_install_appdirname }}"
@@ -47,6 +48,8 @@ Example Playbook
   roles:
     - role: adipriyantobpn.wso2ei
       wso2ei_version:                         "6.1.1"
+      wso2ei_use_local_installer:             yes
+      wso2ei_local_installer_path:            "/vagrant/provisions/ansible/files"
       wso2ei_tmp_dir:                         "/tmp"
       wso2ei_install_basedir:                 "/opt"
       wso2ei_install_source_control_tracked:  yes

@@ -13,17 +13,30 @@
         state: absent
       when: not wso2ei_install_bindir.stat.exists
 
-    - name: copy WSO2 EI installer
+    - name: check if WSO2 EI installer is exists
+      stat:
+        path: "{{ wso2ei_local_installer_path }}/{{ wso2ei_installer_filename }}"
+      when: not wso2ei_install_bindir.stat.exists and wso2ei_use_local_installer
+      register: wso2ei_local_installer
+      ignore_errors: yes
+
+    - name: extract WSO2 EI installer from local installer directory
+      unarchive:
+        src: "{{ wso2ei_local_installer_path }}/{{ wso2ei_installer_filename }}"
+        dest: "{{ wso2ei_install_basedir }}"
+      when: not wso2ei_install_bindir.stat.exists and wso2ei_use_local_installer and wso2ei_local_installer.stat.exists
+
+    - name: copy WSO2 EI installer to temporary directory
       copy:
         src: "{{ wso2ei_installer_filename }}"
         dest: "{{ wso2ei_tmp_dir }}"
-      when: not wso2ei_install_bindir.stat.exists
+      when: not wso2ei_install_bindir.stat.exists and ( not wso2ei_use_local_installer or not wso2ei_local_installer.stat.exists)
 
-    - name: extract WSO2 EI installer
+    - name: extract WSO2 EI installer from temporary directory
       unarchive:
-        src: "{{ wso2ei_tmp_installer_filename }}"
+        src: "{{ wso2ei_tmp_dir }}/{{ wso2ei_installer_filename }}"
         dest: "{{ wso2ei_install_basedir }}"
-      when: not wso2ei_install_bindir.stat.exists
+      when: not wso2ei_install_bindir.stat.exists and ( not wso2ei_use_local_installer or not wso2ei_local_installer.stat.exists)
 
     - name: list all empty directories
       shell: "find . -type d -empty > /tmp/.{{ wso2ei_install_appdirname }}_default-empty-dirs"

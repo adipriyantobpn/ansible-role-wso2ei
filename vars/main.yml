@@ -17,3 +17,18 @@ wso2ei_config_validation_files:
   - "wso2/analytics/conf/etc/config-validation.xml"
   - "wso2/broker/conf/etc/config-validation.xml"
   - "wso2/business-process/conf/etc/config-validation.xml"
+
+wso2ei_carbon_configuration_files:
+  - "conf/carbon.xml"
+  - "wso2/analytics/conf/carbon.xml"
+  - "wso2/broker/conf/carbon.xml"
+  - "wso2/business-process/conf/carbon.xml"
+
+wso2ei_tomcat_catalina_configuration_files:
+  - "conf/tomcat/catalina-server.xml"
+  - "wso2/analytics/conf/tomcat/catalina-server.xml"
+  - "wso2/broker/conf/tomcat/catalina-server.xml"
+  - "wso2/business-process/conf/tomcat/catalina-server.xml"
+
+wso2ei_java_permission_configuration_files:
+  - "conf/sec.policy"

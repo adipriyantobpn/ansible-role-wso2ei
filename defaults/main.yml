@@ -12,6 +12,7 @@ wso2ei_install_appdir_fullpath:         "{{ wso2ei_install_basedir }}/{{ wso2ei_
 wso2ei_install_source_control_tracked:  yes
 wso2ei_install_git_user_name:           'John Doe'
 wso2ei_install_git_user_email:          'john.doe@example.com'
+wso2ei_enable_custom_configuration:     no
 
 #-- Java Virtual Machine Memory configuration
 #--
@@ -30,7 +31,46 @@ wso2ei_msf4j_JVM_MEM_OPTS:              "-Xms256m -Xmx1024m"
 #-- to enable hostname verification of HTTP requests and responses in the Carbon server,
 #-- and thereby avoid security issues in production environments
 #-- source: https://docs.wso2.com/display/ADMIN44x/Production+Deployment+Guidelines#ProductionDeploymentGuidelines-Settingsystemproperties
-wso2ei_ignoreHostnameVerification:        'true'
+wso2ei_ignoreHostnameVerification:      'true'
+#-- enable this if want to set different domain for Carbon Management Console
+#-- otherwise, it's better to just leave it disabled
+# wso2ei_hostname:                       wso2ei.example.com
+# wso2ei_carbon_console_hostname:        wso2eiconsole.example.com
+
+#-- Generate SSL Certificates
+wso2ei_source_cert_dirpath:         "/etc/letsencrypt/live/wso2ei.example.com"
+wso2ei_source_cert_file:            "{{ wso2ei_source_cert_dirpath }}/fullchain.pem"
+wso2ei_source_cert_private_file:    "{{ wso2ei_source_cert_dirpath }}/privkey.pem"
+wso2ei_source_pkcs12_file_basename: "klogwso2ei.pfx"
+wso2ei_source_pkcs12_file_name:     "{{ wso2ei_source_cert_dirpath }}/{{ wso2ei_source_pkcs12_file_basename }}"
+wso2ei_source_pkcs12_alias_name:    "klogwso2ei"
+wso2ei_source_pkcs12_password:      "mySecurePassword"
+
+wso2ei_jks_dirpath:                 "{{ wso2ei_install_appdir_fullpath }}/repository/resources/security"
+
+wso2ei_jks_web_keystore_file_basename:      "wso2carbon.jks"
+wso2ei_jks_web_keystore_file_name:          "{{ wso2ei_jks_dirpath }}/{{ wso2ei_jks_web_keystore_file_basename }}"
+wso2ei_jks_web_keystore_password:           "wso2carbon"
+
+wso2ei_cert_exported_jks_file_name:         "{{ wso2ei_jks_dirpath }}/klogwso2eifullchainpriv.pem"
+wso2ei_jks_client_truststore_file_basename: "client-truststore.jks"
+wso2ei_jks_client_truststore_file_name:     "{{ wso2ei_jks_dirpath }}/{{ wso2ei_jks_client_truststore_file_basename }}"
+wso2ei_jks_client_truststore_password:      "wso2carbon"
+
+wso2ei_jks_primary_keystore_file_basename:              "klogwso2ei_internal.jks"
+wso2ei_jks_primary_keystore_file_name:                  "{{ wso2ei_jks_dirpath }}/{{ wso2ei_jks_primary_keystore_file_basename }}"
+wso2ei_jks_primary_keystore_password:                   "mySecurePasswordInternal"
+wso2ei_jks_primary_keystore_cn:                         "wso2ei.example.com"
+wso2ei_jks_primary_keystore_o:                          "Example Company"
+wso2ei_jks_primary_keystore_ou:                         "IT Department"
+wso2ei_jks_primary_keystore_l:                          "Surabaya"
+wso2ei_jks_primary_keystore_s:                          "East Java"
+wso2ei_jks_primary_keystore_c:                          "ID"
+wso2ei_jks_primary_keystore_validity_days:              360
+wso2ei_jks_primary_keystore_keyalg:                     "RSA"
+wso2ei_jks_primary_keystore_keysize:                    2048
+wso2ei_jks_primary_keystore_SubjectAlternativeName_dns: "wso2ei.example.com"
+wso2ei_jks_primary_keystore_AuthorityInfoAccess_email:  "{{ wso2ei_install_git_user_email }}"
 
 #-- Specification Validator configuration
 #--

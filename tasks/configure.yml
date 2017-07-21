@@ -6,11 +6,102 @@
         src: "{{ item }}.j2"
         dest: "{{ wso2ei_install_appdir_fullpath }}/{{ item }}"
       with_items: "{{ wso2ei_executable_files }}"
+      when: wso2ei_enable_custom_configuration
 
     - name: configure WSO2 EI configuration validation files
       template:
         src: "{{ item }}.j2"
         dest: "{{ wso2ei_install_appdir_fullpath }}/{{ item }}"
       with_items: "{{ wso2ei_config_validation_files }}"
+      when: wso2ei_enable_custom_configuration
 
+    - name: "generate PKCS12/PFX format certificate from supplied PEM format with alias '{{ wso2ei_source_pkcs12_alias_name }}'"
+      shell: "openssl pkcs12 -export -in {{ wso2ei_source_cert_file }} -inkey {{ wso2ei_source_cert_private_file }} -name {{ wso2ei_source_pkcs12_alias_name | quote }} -password pass:{{ wso2ei_source_pkcs12_password | quote }} -out {{ wso2ei_source_pkcs12_file_name }}"
+      when: wso2ei_enable_custom_configuration
+      no_log: yes
+
+    - name: "check if '{{ wso2ei_jks_web_keystore_file_basename }}' is already exists"
+      stat:
+        path: "{{ wso2ei_jks_web_keystore_file_name }}"
+      register: wso2ei_jks_web_keystore_file_name_result
+      when: wso2ei_enable_custom_configuration
+
+    - name: "check if default 'wso2carbon' certificate from default WSO2 EI installer is still exists in '{{ wso2ei_jks_web_keystore_file_basename }}'"
+      shell: "keytool -list -alias wso2carbon -keystore {{ wso2ei_jks_web_keystore_file_name }} -storetype jks -storepass {{ wso2ei_jks_web_keystore_password | quote }} -v"
+      when: wso2ei_enable_custom_configuration and wso2ei_jks_web_keystore_file_name_result.stat.exists
+      register: wso2ei_web_keystore_wso2carbon_imported
+      no_log: yes
+      ignore_errors: yes
+
+    - name: "delete default 'wso2carbon' certificate from '{{ wso2ei_jks_web_keystore_file_basename }}'"
+      shell: "keytool -delete -alias wso2carbon -keystore {{ wso2ei_jks_web_keystore_file_name }} -storepass {{ wso2ei_jks_web_keystore_password | quote }} -v"
+      when: wso2ei_enable_custom_configuration and not 'does not exist' in wso2ei_web_keystore_wso2carbon_imported.stdout
+      no_log: yes
+
+    - name: "check if '{{ wso2ei_source_pkcs12_alias_name }}' PEM certificate is already imported into WSO2 EI client-truststore"
+      shell: "keytool -list -alias {{ wso2ei_source_pkcs12_alias_name | quote }} -keystore {{ wso2ei_jks_web_keystore_file_name }} -storetype jks -storepass {{ wso2ei_jks_web_keystore_password | quote }} -v"
+      when: wso2ei_enable_custom_configuration and wso2ei_jks_web_keystore_file_name_result.stat.exists
+      register: wso2ei_web_keystore_pem_imported
+      no_log: yes
+      ignore_errors: yes
+
+    - name: delete full chain PEM certificate from WSO2 EI client-truststore
+      shell: "keytool -delete -alias {{ wso2ei_source_pkcs12_alias_name | quote }} -keystore {{ wso2ei_jks_web_keystore_file_name }} -storepass {{ wso2ei_jks_web_keystore_password | quote }} -v"
+      when: wso2ei_enable_custom_configuration and not 'does not exist' in wso2ei_web_keystore_pem_imported.stdout
+      no_log: yes
+
+    - name: "import/generate JKS Java KeyStore from PKCS12/PFX format"
+      shell: "keytool -importkeystore -srckeystore {{ wso2ei_source_pkcs12_file_name }} -srcstoretype pkcs12 -srcstorepass {{ wso2ei_source_pkcs12_password | quote }} -destkeystore {{ wso2ei_jks_web_keystore_file_name }} -deststoretype jks -deststorepass {{ wso2ei_jks_web_keystore_password | quote }} -destkeypass {{ wso2ei_jks_web_keystore_password | quote }} -v -noprompt"
+      when: wso2ei_enable_custom_configuration
+      no_log: yes
+
+    - name: export full chain PEM certificate from JKS Java KeyStore
+      shell: "keytool -exportcert -alias {{ wso2ei_source_pkcs12_alias_name | quote }} -keystore {{ wso2ei_jks_web_keystore_file_name }} -storetype jks -storepass {{ wso2ei_jks_web_keystore_password | quote }} -file {{ wso2ei_cert_exported_jks_file_name }} -v"
+      when: wso2ei_enable_custom_configuration
+      no_log: yes
+
+    - name: check if full chain PEM certificate is already imported into WSO2 EI client-truststore
+      shell: "keytool -list -alias {{ wso2ei_source_pkcs12_alias_name | quote }} -keystore {{ wso2ei_jks_client_truststore_file_name }} -storetype jks -storepass {{ wso2ei_jks_client_truststore_password | quote }} -v"
+      when: wso2ei_enable_custom_configuration
+      register: wso2ei_client_truststore_pem_imported
+      no_log: yes
+      ignore_errors: yes
+
+    - name: delete full chain PEM certificate from WSO2 EI client-truststore
+      shell: "keytool -delete -alias {{ wso2ei_source_pkcs12_alias_name | quote }} -keystore {{ wso2ei_jks_client_truststore_file_name }} -storepass {{ wso2ei_jks_client_truststore_password | quote }} -v"
+      when: wso2ei_enable_custom_configuration and not 'does not exist' in wso2ei_client_truststore_pem_imported.stdout
+      no_log: yes
+
+    - name: import full chain PEM certificate into WSO2 EI client-truststore
+      shell: "keytool -importcert -alias {{ wso2ei_source_pkcs12_alias_name | quote }} -file {{ wso2ei_cert_exported_jks_file_name }} -keystore {{ wso2ei_jks_client_truststore_file_name }} -storetype jks -storepass {{ wso2ei_jks_client_truststore_password | quote }} -noprompt -trustcacerts -v"
+      when: wso2ei_enable_custom_configuration
+      no_log: yes
+
+    - name: generate primary keystore
+      shell: "keytool -genkeypair -alias {{ wso2ei_source_pkcs12_alias_name | quote }} -dname 'CN={{ wso2ei_jks_primary_keystore_cn }},OU={{ wso2ei_jks_primary_keystore_ou }},O={{ wso2ei_jks_primary_keystore_o }},L={{ wso2ei_jks_primary_keystore_l }},S={{ wso2ei_jks_primary_keystore_s }},C={{ wso2ei_jks_primary_keystore_c }}' -validity {{ wso2ei_jks_primary_keystore_validity_days }} -keyalg {{ wso2ei_jks_primary_keystore_keyalg }} -keysize {{ wso2ei_jks_primary_keystore_keysize }} -ext KeyUsage:c=digitalSignature,dataEncipherment,keyEncipherment -ext SubjectAlternativeName=dns:'{{ wso2ei_jks_primary_keystore_SubjectAlternativeName_dns }}' -ext ExtendedKeyUsage:c=anyExtendedKeyUsage -ext AuthorityInfoAccess=caIssuers:email:'{{ wso2ei_jks_primary_keystore_AuthorityInfoAccess_email }}' -keystore {{ wso2ei_jks_primary_keystore_file_name }} -storetype jks -storepass {{ wso2ei_jks_primary_keystore_password | quote }} -keypass {{ wso2ei_jks_primary_keystore_password | quote }} -v"
+      args:
+        creates: "{{ wso2ei_jks_primary_keystore_file_name }}"
+      when: wso2ei_enable_custom_configuration
+      no_log: yes
+
+    - name: configure WSO2 EI Carbon
+      template:
+        src: "{{ item }}.j2"
+        dest: "{{ wso2ei_install_appdir_fullpath }}/{{ item }}"
+      with_items: "{{ wso2ei_carbon_configuration_files }}"
+      when: wso2ei_enable_custom_configuration
+
+    - name: configure WSO2 EI Tomcat Catalina-Server
+      template:
+        src: "{{ item }}.j2"
+        dest: "{{ wso2ei_install_appdir_fullpath }}/{{ item }}"
+      with_items: "{{ wso2ei_tomcat_catalina_configuration_files }}"
+      when: wso2ei_enable_custom_configuration
+
+    - name: configure WSO2 EI Java Permission
+      template:
+        src: "{{ item }}.j2"
+        dest: "{{ wso2ei_install_appdir_fullpath }}/{{ item }}"
+      with_items: "{{ wso2ei_java_permission_configuration_files }}"
+      when: wso2ei_enable_custom_configuration
   become: True

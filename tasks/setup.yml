@@ -1,0 +1,68 @@
+---
+- block:
+
+    - name: check if WSO2 EI is already installed
+      stat:
+        path: "{{ wso2ei_install_appdir_fullpath }}/bin"
+      register: wso2ei_install_bindir
+      ignore_errors: yes
+
+    - name: delete default empty directories tracker
+      file: 
+        path: "/tmp/.{{ wso2ei_install_appdirname }}_default-empty-dirs"
+        state: absent
+      when: not wso2ei_install_bindir.stat.exists
+
+    - name: copy WSO2 EI installer
+      copy:
+        src: "{{ wso2ei_installer_filename }}"
+        dest: "{{ wso2ei_tmp_dir }}"
+      when: not wso2ei_install_bindir.stat.exists
+
+    - name: extract WSO2 EI installer
+      unarchive:
+        src: "{{ wso2ei_tmp_installer_filename }}"
+        dest: "{{ wso2ei_install_basedir }}"
+      when: not wso2ei_install_bindir.stat.exists
+
+    - name: list all empty directories
+      shell: "find . -type d -empty > /tmp/.{{ wso2ei_install_appdirname }}_default-empty-dirs"
+      args:
+        chdir: "{{ wso2ei_install_appdir_fullpath }}"
+        creates: "/tmp/.{{ wso2ei_install_appdirname }}_default-empty-dirs"
+      when: not wso2ei_install_bindir.stat.exists and wso2ei_install_source_control_tracked
+      ignore_errors: yes
+
+    - name: initialize git source control
+      shell: "git init"
+      args:
+        chdir: "{{ wso2ei_install_appdir_fullpath }}"
+        creates: "{{ wso2ei_install_appdir_fullpath }}/.git"
+      when: not wso2ei_install_bindir.stat.exists and wso2ei_install_source_control_tracked
+      register: wso2ei_git_init_result
+
+    - name: configure git
+      git_config:
+        name: "{{ item.name }}"
+        scope: local
+        value: "{{ item.value }}"
+        repo: "{{ wso2ei_install_appdir_fullpath }}/.git"
+      with_items:
+        - { name: core.autocrlf, value: 'false' }
+        - { name: user.name, value: "{{ wso2ei_install_git_user_name }}" }
+        - { name: user.email, value: "{{ wso2ei_install_git_user_email }}" }
+      when: not wso2ei_install_bindir.stat.exists and wso2ei_install_source_control_tracked
+
+    - name: track WSO2 EI into git local repo
+      shell: "git add . && git commit -m {{ wso2ei_version|quote }}"
+      args:
+        chdir: "{{ wso2ei_install_appdir_fullpath }}"
+      when: not wso2ei_install_bindir.stat.exists and wso2ei_install_source_control_tracked
+
+    - name: track all empty directories
+      copy:
+        src: ".gitkeep"
+        dest: "{{ wso2ei_install_appdir_fullpath }}/{{ item }}/.gitkeep"
+      with_lines: "cat /tmp/.{{ wso2ei_install_appdirname }}_default-empty-dirs"
+      when: not wso2ei_install_bindir.stat.exists and wso2ei_install_source_control_tracked
+  become: True

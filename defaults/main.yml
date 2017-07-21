@@ -1,2 +1,13 @@
 ---
 # defaults file for adipriyantobpn.wso2ei
+wso2ei_version:                         "6.1.1"
+wso2ei_installer_filename:              "wso2ei-{{ wso2ei_version }}.zip"
+wso2ei_tmp_dir:                         "/tmp"
+wso2ei_tmp_installer_filename:          "/tmp/{{ wso2ei_installer_filename }}"
+wso2ei_install_basedir:                 "/opt"
+wso2ei_install_appdirname:              "wso2ei-{{ wso2ei_version }}"
+wso2ei_install_appdir_fullpath:         "{{ wso2ei_install_basedir }}/{{ wso2ei_install_appdirname }}"
+
+wso2ei_install_source_control_tracked:  yes
+wso2ei_install_git_user_name:           'John Doe'
+wso2ei_install_git_user_email:          'john.doe@example.com'

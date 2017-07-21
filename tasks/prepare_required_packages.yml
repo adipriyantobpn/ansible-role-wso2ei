@@ -1,0 +1,12 @@
+---
+- block:
+
+    - name: install required packages for WSO2 EI installation process
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - unzip
+        - git
+
+  become: True

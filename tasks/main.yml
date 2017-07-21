@@ -1,2 +1,6 @@
 ---
 # tasks file for adipriyantobpn.wso2ei
+
+- include: prepare_required_packages.yml
+
+- include: setup.yml

@@ -4,3 +4,5 @@
 - include: prepare_required_packages.yml
 
 - include: setup.yml
+
+- include: configure.yml

@@ -1,0 +1,10 @@
+---
+- block:
+
+    - name: configure WSO2 EI executable files
+      template:
+        src: "{{ item }}.j2"
+        dest: "{{ wso2ei_install_appdir_fullpath }}/{{ item }}"
+      with_items: "{{ wso2ei_executable_files }}"
+
+  become: True

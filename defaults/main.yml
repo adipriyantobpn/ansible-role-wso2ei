@@ -12,3 +12,12 @@ wso2ei_install_appdir_fullpath:         "{{ wso2ei_install_basedir }}/{{ wso2ei_
 wso2ei_install_source_control_tracked:  yes
 wso2ei_install_git_user_name:           'John Doe'
 wso2ei_install_git_user_email:          'john.doe@example.com'
+
+#-- Java Virtual Machine Memory configuration
+#--
+#-- MaxPermSize is needed in JDK 1.7
+#--   example:
+#--     wso2_JVM_MEM_OPTS:                      "-Xms256m -Xmx1024m -XX:MaxPermSize=256m"
+#--
+#-- MaxPermSize in JDK 1.8 is obsoleted
+wso2_JVM_MEM_OPTS:                      "-Xms256m -Xmx1024m"

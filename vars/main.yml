@@ -1,2 +1,5 @@
 ---
 # vars file for adipriyantobpn.wso2ei
+wso2ei_executable_files:
+  - "bin/integrator.sh"
+  - "bin/integrator.bat"

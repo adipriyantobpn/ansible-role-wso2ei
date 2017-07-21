@@ -1,31 +1,58 @@
-Role Name
+Ansible Role: WSO2 Enterprise Integrator
 =========
 
-A brief description of the role goes here.
+An Ansible Role to install WSO2 Enterprise Integrator
+
+Before using this role, WSO2 Enterprise Integrator installer files must be placed on the playbook files directory.
+Make sure that those files have same version specified on the role variables.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role needs no special requirements, except WSO2 Enterprise Integrator installers and sudo access
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Available variables are listed below, along with default values (see `defaults/main.yml`):
+
+
+```yaml
+---
+wso2ei_version:                         "6.1.1"
+wso2ei_installer_filename:              "wso2ei-{{ wso2ei_version }}.zip"
+wso2ei_tmp_dir:                         "/tmp"
+wso2ei_tmp_installer_filename:          "/tmp/{{ wso2ei_installer_filename }}"
+wso2ei_install_basedir:                 "/opt"
+wso2ei_install_appdirname:              "wso2ei-{{ wso2ei_version }}"
+wso2ei_install_appdir_fullpath:         "{{ wso2ei_install_basedir }}/{{ wso2ei_install_appdirname }}"
+
+wso2ei_install_source_control_tracked:  yes
+wso2ei_install_git_user_name:           'John Doe'
+wso2ei_install_git_user_email:          'john.doe@example.com'
+```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+---
+- name: Prepare CentOS 7 server
+  hosts: centos7
+  roles:
+    - role: adipriyantobpn.wso2ei
+      wso2ei_version:                         "6.1.1"
+      wso2ei_tmp_dir:                         "/tmp"
+      wso2ei_install_basedir:                 "/opt"
+      wso2ei_install_source_control_tracked:  yes
+      wso2ei_install_git_user_name:           'Adi Priyanto'
+      wso2ei_install_git_user_email:          'adipriyanto.bpn@gmail.com'
+```
 
 License
 -------
@@ -35,4 +62,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+This role was created in 2017 by [Adi Priyanto](https://github.com/adipriyantobpn) as a learning purpose for community.

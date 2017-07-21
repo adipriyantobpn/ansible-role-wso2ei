@@ -3,3 +3,11 @@
 wso2ei_executable_files:
   - "bin/integrator.sh"
   - "bin/integrator.bat"
+  - "wso2/analytics/bin/wso2server.sh"
+  - "wso2/analytics/bin/wso2server.bat"
+  - "wso2/broker/bin/wso2server.sh"
+  - "wso2/broker/bin/wso2server.bat"
+  - "wso2/business-process/bin/wso2server.sh"
+  - "wso2/business-process/bin/wso2server.bat"
+  - "wso2/msf4j/bin/carbon.sh"
+  - "wso2/msf4j/bin/carbon.bat"

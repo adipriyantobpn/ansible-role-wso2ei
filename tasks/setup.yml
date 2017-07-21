@@ -72,10 +72,16 @@
         chdir: "{{ wso2ei_install_appdir_fullpath }}"
       when: not wso2ei_install_bindir.stat.exists and wso2ei_install_source_control_tracked
 
-    - name: track all empty directories
+    - name: provide .gitkeep in empty directories
       copy:
         src: ".gitkeep"
         dest: "{{ wso2ei_install_appdir_fullpath }}/{{ item }}/.gitkeep"
       with_lines: "cat /tmp/.{{ wso2ei_install_appdirname }}_default-empty-dirs"
+      when: not wso2ei_install_bindir.stat.exists and wso2ei_install_source_control_tracked
+
+    - name: track all empty directories
+      shell: "git add . && git commit -m 'track empty directories'"
+      args:
+        chdir: "{{ wso2ei_install_appdir_fullpath }}"
       when: not wso2ei_install_bindir.stat.exists and wso2ei_install_source_control_tracked
   become: True

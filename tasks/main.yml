@@ -8,3 +8,5 @@
 - include: ssl.yml
 
 - include: configure.yml
+
+- include: firewall.yml

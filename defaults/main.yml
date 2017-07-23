@@ -19,6 +19,31 @@ wso2ei_install_basedir:                 "/opt/wso2"
 wso2ei_install_appdirname:              "wso2ei-{{ wso2ei_version }}"
 wso2ei_install_appdir_fullpath:         "{{ wso2ei_install_basedir }}/{{ wso2ei_install_appdirname }}"
 
+#-- default open ports
+#-- source: https://docs.wso2.com/display/ADMIN44x/Default+Ports+of+WSO2+Products#DefaultPortsofWSO2Products-EnterpriseIntegrator
+wso2ei_open_ports:
+  - 9443/tcp
+  - 8243/tcp
+  - 8280/tcp
+  - 9444/tcp
+  - 9161/tcp
+  - 7712/tcp
+  - 7612/tcp
+  - 9445/tcp
+  - 9765/tcp
+  - 9446/tcp
+  - 9766/tcp
+  - 5675/tcp
+  - 8675/tcp
+  - 1886/tcp
+  - 8836/tcp
+  - 7614/tcp
+  - 9999/tcp
+  - 11111/tcp
+  - 10389/tcp
+  - 8000/tcp
+  - 10500/tcp
+
 wso2ei_install_source_control_tracked:  yes
 wso2ei_install_git_user_name:           'John Doe'
 wso2ei_install_git_user_email:          'john.doe@example.com'

@@ -1,0 +1,13 @@
+---
+- block:
+    - name: open WSO2 EI default ports
+      firewalld:
+        port: "{{ item }}"
+        zone: public
+        state: enabled
+        permanent: yes
+        immediate: yes
+      with_items: "{{ wso2ei_open_ports }}"
+      when: disable_firewall is defined and not disable_firewall
+
+  become: yes

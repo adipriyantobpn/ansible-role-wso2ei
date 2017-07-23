@@ -33,6 +33,18 @@ wso2ei_tomcat_catalina_configuration_files:
 wso2ei_java_permission_configuration_files:
   - "conf/sec.policy"
 
+wso2ei_master_datasource_configuration_files:
+  - "conf/datasources/master-datasources.xml"
+  - "wso2/analytics/conf/datasources/master-datasources.xml"
+  - "wso2/broker/conf/datasources/master-datasources.xml"
+  - "wso2/business-process/conf/datasources/master-datasources.xml"
+
+wso2ei_user_management_configuration_files:
+  - "conf/user-mgt.xml"
+  - "wso2/analytics/conf/user-mgt.xml"
+  - "wso2/broker/conf/user-mgt.xml"
+  - "wso2/business-process/conf/user-mgt.xml"
+
 wso2ei_axis2_configuration_files:
   - "conf/axis2/axis2.xml"
   - "wso2/analytics/conf/axis2/axis2.xml"

@@ -105,6 +105,20 @@
       with_items: "{{ wso2ei_java_permission_configuration_files }}"
       when: wso2ei_enable_custom_configuration
 
+    - name: configure WSO2 EI Master Datasources
+      template:
+        src: "{{ item }}.j2"
+        dest: "{{ wso2ei_install_appdir_fullpath }}/{{ item }}"
+      with_items: "{{ wso2ei_master_datasource_configuration_files }}"
+      when: wso2ei_enable_custom_configuration
+
+    - name: configure WSO2 EI User Management
+      template:
+        src: "{{ item }}.j2"
+        dest: "{{ wso2ei_install_appdir_fullpath }}/{{ item }}"
+      with_items: "{{ wso2ei_user_management_configuration_files }}"
+      when: wso2ei_enable_custom_configuration
+
     - name: configure WSO2 EI Axis2
       template:
         src: "{{ item }}.j2"

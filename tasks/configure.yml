@@ -104,4 +104,11 @@
         dest: "{{ wso2ei_install_appdir_fullpath }}/{{ item }}"
       with_items: "{{ wso2ei_java_permission_configuration_files }}"
       when: wso2ei_enable_custom_configuration
+
+    - name: configure WSO2 EI Axis2
+      template:
+        src: "{{ item }}.j2"
+        dest: "{{ wso2ei_install_appdir_fullpath }}/{{ item }}"
+      with_items: "{{ wso2ei_axis2_configuration_files }}"
+      when: wso2ei_enable_custom_configuration
   become: True

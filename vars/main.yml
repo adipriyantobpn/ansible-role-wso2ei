@@ -32,3 +32,9 @@ wso2ei_tomcat_catalina_configuration_files:
 
 wso2ei_java_permission_configuration_files:
   - "conf/sec.policy"
+
+wso2ei_axis2_configuration_files:
+  - "conf/axis2/axis2.xml"
+  - "wso2/analytics/conf/axis2/axis2.xml"
+  - "wso2/broker/conf/axis2/axis2.xml"
+  - "wso2/business-process/conf/axis2/axis2.xml"

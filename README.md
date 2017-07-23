@@ -32,7 +32,51 @@ wso2ei_install_source_control_tracked:  yes
 wso2ei_install_git_user_name:           'John Doe'
 wso2ei_install_git_user_email:          'john.doe@example.com'
 
-wso2ei_ignoreHostnameVerification:      'true'
+wso2ei_enable_custom_configuration:     no
+
+wso2ei_verifyHostname:                  false
+
+wso2ei_userAgent:                       'WSO2 EI 6.1.1'
+wso2ei_server:                          'WSO2 EI 6.1.1'
+wso2ei_SynapseConfig_ServerName:        'WSO2 Carbon Server'
+
+wso2ei_enable_VFS_transport: no
+wso2ei_enable_secure_VFS_transport: no
+
+
+wso2ei_source_cert_dirpath:             "/etc/letsencrypt/live/wso2ei.example.com"
+wso2ei_source_cert_file:                "{{ wso2ei_source_cert_dirpath }}/fullchain.pem"
+wso2ei_source_cert_private_file:        "{{ wso2ei_source_cert_dirpath }}/privkey.pem"
+wso2ei_source_pkcs12_file_basename:     'klogwso2ei.pfx'
+wso2ei_source_pkcs12_file_name:         "{{ wso2ei_source_cert_dirpath }}/{{ wso2ei_source_pkcs12_file_basename }}"
+wso2ei_source_pkcs12_alias_name:        'klogwso2ei'
+wso2ei_source_pkcs12_password:          'mySecurePassword'
+
+wso2ei_jks_dirpath:                     "{{ wso2ei_install_appdir_fullpath }}/repository/resources/security"
+
+wso2ei_jks_web_keystore_file_basename:  'wso2carbon.jks'
+wso2ei_jks_web_keystore_file_name:      "{{ wso2ei_jks_dirpath }}/{{ wso2ei_jks_web_keystore_file_basename }}"
+wso2ei_jks_web_keystore_password:       'wso2carbon'
+
+wso2ei_cert_exported_jks_file_name:         "{{ wso2ei_jks_dirpath }}/klogwso2eifullchainpriv.pem"
+wso2ei_jks_client_truststore_file_basename: 'client-truststore.jks'
+wso2ei_jks_client_truststore_file_name:     "{{ wso2ei_jks_dirpath }}/{{ wso2ei_jks_client_truststore_file_basename }}"
+wso2ei_jks_client_truststore_password:      'wso2carbon'
+
+wso2ei_jks_primary_keystore_file_basename:              'klogwso2ei_internal.jks'
+wso2ei_jks_primary_keystore_file_name:                  "{{ wso2ei_jks_dirpath }}/{{ wso2ei_jks_primary_keystore_file_basename }}"
+wso2ei_jks_primary_keystore_password:                   'mySecurePasswordInternal'
+wso2ei_jks_primary_keystore_cn:                         'wso2ei.example.com'
+wso2ei_jks_primary_keystore_o:                          'Example Company'
+wso2ei_jks_primary_keystore_ou:                         'IT Department'
+wso2ei_jks_primary_keystore_l:                          'Surabaya'
+wso2ei_jks_primary_keystore_s:                          'East Java'
+wso2ei_jks_primary_keystore_c:                          'ID'
+wso2ei_jks_primary_keystore_validity_days:              360
+wso2ei_jks_primary_keystore_keyalg:                     'RSA'
+wso2ei_jks_primary_keystore_keysize:                    2048
+wso2ei_jks_primary_keystore_SubjectAlternativeName_dns: 'wso2ei.example.com'
+wso2ei_jks_primary_keystore_AuthorityInfoAccess_email:  "{{ wso2ei_install_git_user_email }}"
 
 wso2ei_JVM_MEM_OPTS:                    "-Xms256m -Xmx1024m"
 wso2ei_analytics_JVM_MEM_OPTS:          "-Xms256m -Xmx2048m"

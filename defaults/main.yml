@@ -27,15 +27,25 @@ wso2ei_broker_JVM_MEM_OPTS:             "-Xms1024m -Xmx2048m"
 wso2ei_business_process_JVM_MEM_OPTS:   "-Xms256m -Xmx1024m"
 wso2ei_msf4j_JVM_MEM_OPTS:              "-Xms256m -Xmx1024m"
 
+wso2ei_userAgent:                       'WSO2 EI 6.1.1'
+wso2ei_server:                          'WSO2 EI 6.1.1'
+wso2ei_SynapseConfig_ServerName:        'WSO2 Carbon Server'
 #-- set to 'false', in production
 #-- to enable hostname verification of HTTP requests and responses in the Carbon server,
 #-- and thereby avoid security issues in production environments
 #-- source: https://docs.wso2.com/display/ADMIN44x/Production+Deployment+Guidelines#ProductionDeploymentGuidelines-Settingsystemproperties
-wso2ei_ignoreHostnameVerification:      'true'
+#--         https://docs.wso2.com/display/EI611/Enabling+SSL+Tunneling+through+a+Proxy+Server
+wso2ei_verifyHostname:                  false
 #-- enable this if want to set different domain for Carbon Management Console
 #-- otherwise, it's better to just leave it disabled
 # wso2ei_hostname:                       wso2ei.example.com
 # wso2ei_carbon_console_hostname:        wso2eiconsole.example.com
+
+#-- Axis2 Transport
+#-- source: https://docs.wso2.com/display/EI611/VFS+Transport
+#           https://docs.wso2.com/display/EI611/Configuring+File+Inbound+Protocol+for+FTP%2C+SFTP+and+FILE+Connections
+wso2ei_enable_VFS_transport: no
+wso2ei_enable_secure_VFS_transport: no
 
 #-- Generate SSL Certificates
 wso2ei_source_cert_dirpath:         "/etc/letsencrypt/live/wso2ei.example.com"

@@ -437,7 +437,7 @@
                 <Password>{{ wso2ei_jks_client_truststore_password}}</Password>
             </TrustStore>
         </parameter>
-        
+
 {% if wso2ei_verifyHostname is defined and wso2ei_verifyHostname %}
         <parameter name="HostnameVerifier">Strict</parameter>
 {% elif not wso2ei_verifyHostname %}

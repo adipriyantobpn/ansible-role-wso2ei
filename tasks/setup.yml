@@ -7,13 +7,29 @@
       register: wso2ei_install_bindir
       ignore_errors: yes
 
+    - name: create wso2 user
+      user:
+        name: wso2
+        state: present
+    
+    - name: make sure {{ wso2ei_install_basedir }} is exists
+      file:
+        path: "{{ wso2ei_install_basedir }}"
+        state: directory
+        owner: wso2
+        group: wso2
+        mode: 0755
+  become: yes
+
+- block:
+
     - name: delete default empty directories tracker
       file: 
-        path: "/tmp/.{{ wso2ei_install_appdirname }}_default-empty-dirs"
+        path: "{{ wso2ei_install_basedir }}/.{{ wso2ei_install_appdirname }}_default-empty-dirs"
         state: absent
       when: not wso2ei_install_bindir.stat.exists
 
-    - name: check if WSO2 EI installer is exists
+    - name: check if WSO2 EI local installer is exists
       stat:
         path: "{{ wso2ei_local_installer_path }}/{{ wso2ei_installer_filename }}"
       when: not wso2ei_install_bindir.stat.exists and wso2ei_use_local_installer
@@ -39,10 +55,10 @@
       when: not wso2ei_install_bindir.stat.exists and ( not wso2ei_use_local_installer or not wso2ei_local_installer.stat.exists)
 
     - name: list all empty directories
-      shell: "find . -type d -empty > /tmp/.{{ wso2ei_install_appdirname }}_default-empty-dirs"
+      shell: "find . -type d -empty > {{ wso2ei_install_basedir }}/.{{ wso2ei_install_appdirname }}_default-empty-dirs"
       args:
         chdir: "{{ wso2ei_install_appdir_fullpath }}"
-        creates: "/tmp/.{{ wso2ei_install_appdirname }}_default-empty-dirs"
+        creates: "{{ wso2ei_install_basedir }}/.{{ wso2ei_install_appdirname }}_default-empty-dirs"
       when: not wso2ei_install_bindir.stat.exists and wso2ei_install_source_control_tracked
       ignore_errors: yes
 
@@ -65,6 +81,11 @@
         - { name: user.name, value: "{{ wso2ei_install_git_user_name }}" }
         - { name: user.email, value: "{{ wso2ei_install_git_user_email }}" }
       when: not wso2ei_install_bindir.stat.exists and wso2ei_install_source_control_tracked
+    
+    - name: configure .gitattributes
+      template:
+        src: .gitattributes.j2
+        dest: "{{ wso2ei_install_appdir_fullpath }}/.gitattributes"
 
     - name: track WSO2 EI into git local repo
       shell: "git add . && git commit -m {{ wso2ei_version|quote }}"
@@ -76,7 +97,7 @@
       copy:
         src: ".gitkeep"
         dest: "{{ wso2ei_install_appdir_fullpath }}/{{ item }}/.gitkeep"
-      with_lines: "cat /tmp/.{{ wso2ei_install_appdirname }}_default-empty-dirs"
+      with_lines: "cat {{ wso2ei_install_basedir }}/.{{ wso2ei_install_appdirname }}_default-empty-dirs"
       when: not wso2ei_install_bindir.stat.exists and wso2ei_install_source_control_tracked
 
     - name: track all empty directories
@@ -84,4 +105,5 @@
       args:
         chdir: "{{ wso2ei_install_appdir_fullpath }}"
       when: not wso2ei_install_bindir.stat.exists and wso2ei_install_source_control_tracked
-  become: True
+  become: yes
+  become_user: wso2

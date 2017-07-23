@@ -4,14 +4,18 @@ wso2ei_version:                         "6.1.1"
 wso2ei_installer_filename:              "wso2ei-{{ wso2ei_version }}.zip"
 wso2ei_use_local_installer:             no
 wso2ei_local_installer_path:            "{{ x_ansible_download_dir | default(ansible_env.HOME + '/.ansible/tmp/downloads') }}"
-wso2ei_tmp_dir:                         "/tmp"
-wso2ei_install_basedir:                 "/opt"
+wso2ei_tmp_dir:                         "{{ x_ansible_download_dir | default(ansible_env.HOME + '/.ansible/tmp/downloads') }}"
+wso2ei_install_basedir:                 "/opt/wso2"
 wso2ei_install_appdirname:              "wso2ei-{{ wso2ei_version }}"
 wso2ei_install_appdir_fullpath:         "{{ wso2ei_install_basedir }}/{{ wso2ei_install_appdirname }}"
 
 wso2ei_install_source_control_tracked:  yes
 wso2ei_install_git_user_name:           'John Doe'
 wso2ei_install_git_user_email:          'john.doe@example.com'
+wso2ei_gitattributes:
+  - { type: '*.bat', setting: 'text eol=crlf' }
+  - { type: '*.sh', setting: 'text eol=lf' }
+  - { type: '*.xml', setting: 'text eol=lf' }
 wso2ei_enable_custom_configuration:     no
 
 #-- Java Virtual Machine Memory configuration
@@ -48,15 +52,15 @@ wso2ei_enable_VFS_transport: no
 wso2ei_enable_secure_VFS_transport: no
 
 #-- Generate SSL Certificates
+wso2ei_jks_dirpath:                 "{{ wso2ei_install_appdir_fullpath }}/repository/resources/security"
+
 wso2ei_source_cert_dirpath:         "/etc/letsencrypt/live/wso2ei.example.com"
 wso2ei_source_cert_file:            "{{ wso2ei_source_cert_dirpath }}/fullchain.pem"
 wso2ei_source_cert_private_file:    "{{ wso2ei_source_cert_dirpath }}/privkey.pem"
 wso2ei_source_pkcs12_file_basename: "klogwso2ei.pfx"
-wso2ei_source_pkcs12_file_name:     "{{ wso2ei_source_cert_dirpath }}/{{ wso2ei_source_pkcs12_file_basename }}"
+wso2ei_source_pkcs12_file_name:     "{{ wso2ei_jks_dirpath }}/{{ wso2ei_source_pkcs12_file_basename }}"
 wso2ei_source_pkcs12_alias_name:    "klogwso2ei"
 wso2ei_source_pkcs12_password:      "mySecurePassword"
-
-wso2ei_jks_dirpath:                 "{{ wso2ei_install_appdir_fullpath }}/repository/resources/security"
 
 wso2ei_jks_web_keystore_file_basename:      "wso2carbon.jks"
 wso2ei_jks_web_keystore_file_name:          "{{ wso2ei_jks_dirpath }}/{{ wso2ei_jks_web_keystore_file_basename }}"

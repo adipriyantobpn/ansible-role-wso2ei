@@ -1,0 +1,53 @@
+---
+- block:
+
+    - name: prepare MariaDB database
+      mysql_db:
+        name: "{{ wso2ei_db_name }}"
+        collation: "{{ wso2ei_mysql_db_collation }}"
+        encoding: "{{ wso2ei_mysql_db_encoding }}"
+        state: present
+      register: wso2ei_db_name_check
+      when: wso2ei_db_type == 'mariadb'
+
+    - name: check if DDL script is already imported
+      shell: mysql -e "select count(*) as reg_content_qty from {{ wso2ei_db_name }}.REG_LOG;"
+      register: wso2ei_db_name_imported
+      when: wso2ei_db_type == 'mariadb'
+      ignore_errors: yes
+
+    - debug: msg={{ wso2ei_db_name_imported }}
+
+    - name: import WSO2 EI Registry MySQL database
+      mysql_db:
+        name: "{{ wso2ei_db_name }}"
+        target: "{{ wso2ei_install_appdir_fullpath }}/dbscripts/mysql5.7.sql"
+        state: import
+      when: wso2ei_db_type == 'mariadb' and wso2ei_db_name_imported.failed is defined and wso2ei_db_name_imported.failed
+      ignore_errors: yes
+
+    - name: prepare MariaDB user
+      mysql_user:
+        name: "{{ wso2ei_db_user }}"
+        host: "{{ wso2ei_db_user_host }}"
+        password: "{{ wso2ei_db_user_password }}"
+        priv: "{{ wso2ei_mysql_user_priv }}"
+        state: present
+      no_log: true
+      when: wso2ei_db_type == 'mariadb'
+  become: yes
+  become_user: root
+  tags:
+    - wso2eimariadb
+
+- block:
+
+    - name: prepare MySQL Java connector
+      copy:
+        src: "{{ wso2ei_mysql_conn_file_basename }}"
+        dest: "{{ wso2ei_install_applibdir }}"
+  become: yes
+  become_user: wso2
+  when: wso2ei_db_type == 'mariadb'
+  tags:
+    - wso2eimariadb

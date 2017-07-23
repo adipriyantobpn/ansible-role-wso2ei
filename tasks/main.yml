@@ -16,4 +16,6 @@
 
 - include: configure.yml
 
+- include: database_mariadb.yml
+
 - include: firewall.yml

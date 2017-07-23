@@ -14,6 +14,20 @@
             </jndiConfig>
             <definition type="RDBMS">
                 <configuration>
+{% if wso2ei_db_type == 'mariadb' or wso2ei_db_type == 'mysql' %}
+                    <url>jdbc:mysql://{{ wso2ei_db_user_host }}:3306/{{ wso2ei_db_name }}</url>
+                    <username>{{ wso2ei_db_user }}</username>
+                    <password>{{ wso2ei_db_user_password }}</password>
+                    <driverClassName>com.mysql.jdbc.Driver</driverClassName>
+                    <maxActive>40</maxActive>
+                    <maxWait>60000</maxWait>
+                    <minIdle>5</minIdle>
+                    <initialSize>5</initialSize>
+                    <testOnBorrow>true</testOnBorrow>
+                    <validationQuery>SELECT 1</validationQuery>
+                    <validationInterval>30000</validationInterval>
+                    <defaultAutoCommit>false</defaultAutoCommit>
+{% else %}
                     <url>jdbc:h2:./repository/database/WSO2CARBON_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000</url>
                     <username>wso2carbon</username>
                     <password>wso2carbon</password>
@@ -24,6 +38,7 @@
                     <validationQuery>SELECT 1</validationQuery>
                     <validationInterval>30000</validationInterval>
                     <defaultAutoCommit>false</defaultAutoCommit>
+{% endif %}
                 </configuration>
             </definition>
         </datasource>

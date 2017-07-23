@@ -18,6 +18,20 @@ wso2ei_tmp_dir:                         "{{ x_ansible_download_dir | default(ans
 wso2ei_install_basedir:                 "/opt/wso2"
 wso2ei_install_appdirname:              "wso2ei-{{ wso2ei_version }}"
 wso2ei_install_appdir_fullpath:         "{{ wso2ei_install_basedir }}/{{ wso2ei_install_appdirname }}"
+wso2ei_install_applibdir:               "{{ wso2ei_install_appdir_fullpath }}/lib"
+
+#-- Database for Registry and User Store
+#-- source: https://docs.wso2.com/display/ADMIN44x/Working+with+Databases
+wso2ei_db_type:                         h2
+wso2ei_db_name:                         wso2ei
+wso2ei_db_user:                         wso2ei
+wso2ei_db_user_host:                    localhost
+wso2ei_db_user_password:                'PHbgWsdTN2kZMZhb55QG'
+wso2ei_mysql_conn_file_basename:        'mysql-connector-java-5.1.42-bin.jar'
+wso2ei_mysql_db_collation:              utf8_general_ci
+wso2ei_mysql_db_encoding:               utf8
+wso2ei_mysql_user_priv:                 "{{ wso2ei_db_name }}.*:ALL"
+
 
 #-- default open ports
 #-- source: https://docs.wso2.com/display/ADMIN44x/Default+Ports+of+WSO2+Products#DefaultPortsofWSO2Products-EnterpriseIntegrator

@@ -1,5 +1,15 @@
 ---
 # defaults file for adipriyantobpn.wso2ei
+
+#-- user_password should be encypted, by using this command
+#--         python -c 'import crypt; print crypt.crypt("mySecurePassword", "4nyS4ltText")'
+#-- or
+#-- encrypted using jinja filters
+#--         {{ 'mySecurePassword' | password_hash('sha512') }}
+#-- source: https://github.com/ansible/ansible-examples/blob/master/language_features/user_commands.yml
+#--         https://thinkingmonster.wordpress.com/it-automation/386-2/ansible-roles/
+wso2ei_user_password:                   "mySecurePassword"
+
 wso2ei_version:                         "6.1.1"
 wso2ei_installer_filename:              "wso2ei-{{ wso2ei_version }}.zip"
 wso2ei_use_local_installer:             no

@@ -10,6 +10,7 @@
     - name: create wso2 user
       user:
         name: wso2
+        password: "{{ wso2ei_user_password | password_hash('sha512') }}"
         state: present
     
     - name: make sure {{ wso2ei_install_basedir }} is exists

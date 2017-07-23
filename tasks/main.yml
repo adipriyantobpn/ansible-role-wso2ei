@@ -1,6 +1,13 @@
 ---
 # tasks file for adipriyantobpn.wso2ei
 
+- name: create wso2 user
+  become: yes
+  user:
+    name: wso2
+    password: "{{ wso2ei_user_password | password_hash('sha512') }}"
+    state: present
+
 - include: prepare_required_packages.yml
 
 - include: setup.yml

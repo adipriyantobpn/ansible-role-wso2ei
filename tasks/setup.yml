@@ -6,12 +6,6 @@
         path: "{{ wso2ei_install_appdir_fullpath }}/bin"
       register: wso2ei_install_bindir
       ignore_errors: yes
-
-    - name: create wso2 user
-      user:
-        name: wso2
-        password: "{{ wso2ei_user_password | password_hash('sha512') }}"
-        state: present
     
     - name: make sure {{ wso2ei_install_basedir }} is exists
       file:

@@ -1,6 +1,13 @@
 ---
 - block:
-
+    - name: detect if Oracle JDK is already installed using user 'root'
+      shell: "source /etc/profile.d/java.sh; echo $PATH"
+      register: detect_java
+      until: detect_java.stdout.find("jdk") != -1
+      retries: 5
+      delay: 10
+    - debug: msg={{ detect_java }}
+  
     - name: install required packages for WSO2 EI installation process
       yum:
         name: "{{ item }}"
@@ -8,5 +15,5 @@
       with_items:
         - unzip
         - git
-
-  become: True
+  become: yes
+  become_user: root

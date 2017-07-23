@@ -266,17 +266,17 @@
         <parameter name="httpGetProcessor" locked="false">org.wso2.carbon.mediation.transport.handlers.PassThroughNHttpGetProcessor</parameter>
         <parameter name="keystore" locked="false">
             <KeyStore>
-                <Location>repository/resources/security/wso2carbon.jks</Location>
+                <Location>repository/resources/security/{{ wso2ei_jks_web_keystore_file_basename }}</Location>
                 <Type>JKS</Type>
-                <Password>wso2carbon</Password>
-                <KeyPassword>wso2carbon</KeyPassword>
+                <Password>{{ wso2ei_jks_web_keystore_password }}</Password>
+                <KeyPassword>{{ wso2ei_jks_web_keystore_password }}</KeyPassword>
             </KeyStore>
         </parameter>
         <parameter name="truststore" locked="false">
             <TrustStore>
-                <Location>repository/resources/security/client-truststore.jks</Location>
+                <Location>repository/resources/security/{{ wso2ei_jks_client_truststore_file_basename }}</Location>
                 <Type>JKS</Type>
-                <Password>wso2carbon</Password>
+                <Password>{{ wso2ei_jks_client_truststore_password}}</Password>
             </TrustStore>
         </parameter>
         <!--<parameter name="SSLVerifyClient">require</parameter>
@@ -424,17 +424,17 @@
         <parameter name="non-blocking" locked="false">true</parameter>
         <parameter name="keystore" locked="false">
             <KeyStore>
-                <Location>repository/resources/security/wso2carbon.jks</Location>
+                <Location>repository/resources/security/{{ wso2ei_jks_web_keystore_file_basename }}</Location>
                 <Type>JKS</Type>
-                <Password>wso2carbon</Password>
-                <KeyPassword>wso2carbon</KeyPassword>
+                <Password>{{ wso2ei_jks_web_keystore_password }}</Password>
+                <KeyPassword>{{ wso2ei_jks_web_keystore_password }}</KeyPassword>
             </KeyStore>
         </parameter>
         <parameter name="truststore" locked="false">
             <TrustStore>
-                <Location>repository/resources/security/client-truststore.jks</Location>
+                <Location>repository/resources/security/{{ wso2ei_jks_client_truststore_file_basename }}</Location>
                 <Type>JKS</Type>
-                <Password>wso2carbon</Password>
+                <Password>{{ wso2ei_jks_client_truststore_password}}</Password>
             </TrustStore>
         </parameter>
         
@@ -506,8 +506,8 @@
         <parameter name="ws.outflow.dispatch.sequence" locked="false">outflowDispatchSeq</parameter>
         <parameter name="ws.outflow.dispatch.fault.sequence" locked="false">outflowFaultSeq</parameter>
         <parameter name="ws.trust.store" locked="false">
-            <ws.trust.store.location>repository/resources/security/client-truststore.jks</ws.trust.store.location>
-            <ws.trust.store.Password>wso2carbon</ws.trust.store.Password>
+            <ws.trust.store.location>repository/resources/security/{{ wso2ei_jks_client_truststore_file_basename }}</ws.trust.store.location>
+            <ws.trust.store.Password>{{ wso2ei_jks_client_truststore_password}}</ws.trust.store.Password>
         </parameter>
     </transportSender>-->
 
